@@ -28,3 +28,17 @@ npm run build
 ```sh
 npm run test:unit
 ```
+
+## Setup with Docker
+
+### Create image 
+
+```
+docker build -t vuejs/dockerize-vuejs-app .
+```
+
+### Create container
+
+```
+docker run -it -p 8080:8080 --rm --name vuejs-app-1 vuejs/dockerize-vuejs-app
+```
