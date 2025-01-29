@@ -98,8 +98,7 @@ function generateReport(data) {
 }
 
 function openReport(item) {
-  saveAs(`${URL_API.replace('/api/','')}${item.report_link}`, `${item.title}.xlsx`)
-
+  saveAs(`${URL_API}${item.report_link.slice(1)}`, `${item.title}.xlsx`);
 }
 </script>
 
