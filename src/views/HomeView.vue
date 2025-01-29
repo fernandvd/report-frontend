@@ -89,8 +89,6 @@ function generateReport(data) {
     }
   })
   .then(response => {
-    console.log("Generate report", response.data)
-    
   }).catch(error => {
     alert("No se pudo generar el reporte");
     console.error(error.response);
