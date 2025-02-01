@@ -1,0 +1,59 @@
+name: Deploy to Github Pages
+
+run-name: ${{github.actor }} is testing out Github action
+
+on:
+  push:
+    branches:
+      - main #Triggers the workflow on each push to the
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest 
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Create Node Environment 
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Install Packages and Build Application
+        run: |
+          npm ci
+          npm run build
+      
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v3 
+
+      - name: Build with Jekyll 
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./dist/
+          destionation: ./_site
+
+      - name: Upload artifact 
+        uses: actions/upload-pages-artifact@v2
+
+  deploy:
+    name: Deploy Application
+
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write 
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url}}
+
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
